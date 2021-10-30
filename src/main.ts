@@ -17,19 +17,21 @@ export default class BlogMd {
 	articleDir: string;
 	outDir: string;
 	constructor(settings: BlogMdSettings) {
+		this.template = settings.template || blogTemplate;
+		this.articleDir = settings.articleDir || "./articles";
+		this.outDir = settings.outDir || "./public";
 		(async () => {
-			// publicディレクトリを作成
-			await fs.mkdir("./public");
+			// 生成物を保存するディレクトリを作成
+			await fs.mkdir(this.outDir).catch(error => {
+				console.error(`${this.outDir}はすでに存在します。`);
+			});
 			// SCSSファイルのコンパイル
 			const css = sass.renderSync({
 				file: settings.styleFile || "./style/basic.scss"
 			}).css;
 			// public直下に保存
-			await fs.writeFile("./public/style.css", css.toString());
+			await fs.writeFile(path.join(this.outDir, "style.css"), css.toString());
 		})();
-		this.template = settings.template || blogTemplate;
-		this.articleDir = settings.articleDir || "./articles";
-		this.outDir = settings.outDir || "./public";
 	}
 
 	build = async () => {
