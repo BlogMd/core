@@ -65,6 +65,8 @@ Each folders of `./articles` must include `article.md` and `meta.jsonld`. `meta.
 
 ```javascript
 // script.js
+const BlogMd = require("@blogmd/core").default;
+
 const blogmd = new BlogMd({});
 blogmd.build();
 blogmd.buildIndex();
