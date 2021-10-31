@@ -1,6 +1,6 @@
 {
 	"name": "@blogmd/core",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "BlogMd is an open-source blog engine",
 	"main": "dist/main.js",
 	"scripts": {
