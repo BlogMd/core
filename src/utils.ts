@@ -31,7 +31,7 @@ export type MetadataBlogPost = {
 	"dateModified": string // 記事の更新日
 }
 
-export const blogTemplate = (jsonld: MetadataBlogPost, markdown: string) => `<!DOCTYPE html>
+export const blogTemplate = (jsonld: MetadataBlogPost, article: string) => `<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -48,7 +48,7 @@ export const blogTemplate = (jsonld: MetadataBlogPost, markdown: string) => `<!D
 		<h1 class="title">${jsonld.headline}</h1>
 		<p>${jsonld.datePublished}(更新:${jsonld.dateModified})</p>
 		<article>
-			${markdownToHtml(markdown)}
+			${article}
 		</article>
 	</main>
 	<footer>

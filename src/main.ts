@@ -2,9 +2,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import sass from 'sass';
 
-import { MetadataBlogPost, blogTemplate } from './utils';
+import { MetadataBlogPost, blogTemplate, markdownToHtml } from './utils';
 
-export type Template = (metadata: MetadataBlogPost, markdown: string) => string;
+export type Template = (metadata: MetadataBlogPost, article: string) => string;
 export interface BlogMdSettings {
 	styleFile?: string // SCSSファイルのパスを指定
 	template?: Template // テンプレートを指定
@@ -49,7 +49,7 @@ export default class BlogMd {
 			});
 			const metadata: MetadataBlogPost = JSON.parse(jsonld);
 			// HTMLの作成
-			const html = this.template(metadata, markdown);
+			const html = this.template(metadata, markdownToHtml(markdown));
 			// 保存
 			const destDir = path.join(this.outDir || "./public", article);
 			await fs.mkdir(destDir);
