@@ -1,7 +1,9 @@
 import MarkdownIt from 'markdown-it';
 
 export const markdownToHtml = (markdown: string) => {
-	const parser = new MarkdownIt();
+	const parser = new MarkdownIt({
+		html: true
+	});
 	return parser.render(markdown);
 }
 
