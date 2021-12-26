@@ -34,7 +34,7 @@ export default class BlogMd {
 		})();
 	}
 
-	build = async (options: { eraceExif: boolean } = { eraceExif: false }) => {
+	build = async (options: { eraseExif: boolean } = { eraseExif: false }) => {
 		// articleディレクトリを探査
 		const articleList = await fs.readdir(this.articleDir);
 		for (let article of articleList) {
@@ -68,7 +68,7 @@ export default class BlogMd {
 			// フォルダ内の画像がExif情報を持っているかどうかを確認する
 			await ExifTool.checkDirectory(destDir, {
 				recursive: true,
-				checkOnly: !options.eraceExif
+				checkOnly: !options.eraseExif
 			});
 		}
 	}
