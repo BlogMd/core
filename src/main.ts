@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import sass from 'sass';
-
+import { ExifTool } from '@blogmd/exiftool';
 import { MetadataBlogPost, blogTemplate, markdownToHtml } from './utils';
 
 export type Template = (metadata: MetadataBlogPost, article: string) => string;
@@ -34,7 +34,7 @@ export default class BlogMd {
 		})();
 	}
 
-	build = async () => {
+	build = async (options: { eraceExif: boolean } = { eraceExif: false }) => {
 		// articleディレクトリを探査
 		const articleList = await fs.readdir(this.articleDir);
 		for (let article of articleList) {
@@ -55,7 +55,7 @@ export default class BlogMd {
 			await fs.mkdir(destDir);
 			await fs.writeFile(path.join(destDir, "index.html"), html);
 			// 画像データなどをコピー
-			fs.readdir(sourceDir).then(assets => {
+			await fs.readdir(sourceDir).then(assets => {
 				assets.forEach(asset => {
 					if (asset.match(/.(md|jsonld)$/) === null) {
 						fs.copyFile(
@@ -64,6 +64,11 @@ export default class BlogMd {
 						);
 					}
 				})
+			});
+			// フォルダ内の画像がExif情報を持っているかどうかを確認する
+			await ExifTool.checkDirectory(destDir, {
+				recursive: true,
+				checkOnly: !options.eraceExif
 			});
 		}
 	}
