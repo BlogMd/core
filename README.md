@@ -2,36 +2,48 @@
 
 BlogMd is an open-source blog engine
 
-## Usage
+## Installation
 
-1. install blogmd on your repository
+BlogMd を使ってブログを作成するには、まずあなたのレポジトリに`@blogmd/core`をインストールする必要があります。
 
 ```bash
 npm install @blogmd/core
 ```
+
+`@blogmd/core`をインストールすることによって、Markdown で記述したページを HTML に変換することができます。
+
+## Usage
+
+次に、BlogMd を使ってブログ記事を作成する方法を紹介します。
+
+### 手動で新規記事を作成する
 
 2. prepare files like bellow
 
 ```text
 .
 ├── articles
-│   ├── summer-journey
+│   ├── my-favorite-movie
 │   │   ├── article.md
-│   │   ├── ebay.png
 │   │   ├── meta.jsonld
-│   │   ├── airport.jpg
-│   │   ├── grandmother.jpg
-│   │   ├── great-dish.jpg
-│   │   └── souvenior.jpg
-│   └── my-favorite-movie
+│   │   └── resources
+│   │       ├── roman-holiday.jpg
+│   │       └── the-third-man.jpg
+│   └── summer-journey
 │       ├── article.md
 │       ├── meta.jsonld
-│       └── the-third-man.jpg
-├── package-lock.json
-└── package.json
+│       └── resources
+│           ├── airport.jpg
+│           ├── grandmother.jpg
+│           └── souvenior.jpg
+├── manifest.json
+├── package.json
+└── package-lock.json
 ```
 
-Each folders of `./articles` must include `article.md` and `meta.jsonld`. `meta.jsonld` is important to build blog posts. I will show you an example below.
+Each folders of `./articles` must include `article.md` and `meta.jsonld`.
+If you include image or video, putting them on `resources` is recommended.
+`meta.jsonld` is important to build blog posts. I will show you an example below.
 
 ```javascript
 {
@@ -59,6 +71,21 @@ Each folders of `./articles` must include `article.md` and `meta.jsonld`. `meta.
   "datePublished": "2021-10-28", // Created date
   "dateModified": "2021-10-28" // Last updated
 }
+```
+
+### コマンドラインツールを使って新規記事を作成する(experimental)
+
+便利なコマンドラインツールを使うと、マニフェストファイルを対話的に作成できたり、必要なファイルやディレクトリを自動生成することができます。
+コマンドラインツールは次のコマンドでインストールすることができます。
+
+```bash
+npm install @blogmd/cli
+```
+
+コマンドラインツールがインストールできたら、記事を作成してみましょう。
+
+```bash
+npx @blogmd/cli article new-article
 ```
 
 3. write a script
