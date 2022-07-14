@@ -1,8 +1,9 @@
+import { ExifTool } from '@blogmd/exiftool';
 import fs from 'fs/promises';
+import * as markdownWasm from "markdown-wasm";
 import path from 'path';
 import sass from 'sass';
-import { ExifTool } from '@blogmd/exiftool';
-import { MetadataBlogPost, blogTemplate, markdownToHtml } from './utils';
+import { blogTemplate, MetadataBlogPost } from './utils';
 
 export type Template = (metadata: MetadataBlogPost, article: string) => string;
 export interface BlogMdSettings {
@@ -49,7 +50,9 @@ export default class BlogMd {
 			});
 			const metadata: MetadataBlogPost = JSON.parse(jsonld);
 			// HTMLの作成
-			const html = this.template(metadata, markdownToHtml(markdown));
+			const html = this.template(metadata, markdownWasm.parse(markdown, {
+				format: "html"
+			}));
 			// 保存
 			const destDir = path.join(this.outDir || "./public", article);
 			await fs.mkdir(destDir);
